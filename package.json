@@ -1,7 +1,7 @@
 {
-  "name": "bitcore",
+  "name": "ravencore",
   "version": "4.1.0",
-  "description": "A platform to build bitcoin and blockchain-based applications.",
+  "description": "A platform to build ravencoin and blockchain-based applications.",
   "author": "BitPay <dev@bitpay.com>",
   "main": "index.js",
   "scripts": {
@@ -9,8 +9,8 @@
     "build-deb": "./scripts/build-deb"
   },
   "bin": {
-    "bitcore": "./bin/bitcore",
-    "bitcored": "./bin/bitcored"
+    "ravencore": "./bin/ravencore",
+    "ravencored": "./bin/ravencored"
   },
   "contributors": [
     {
@@ -59,7 +59,7 @@
     }
   ],
   "keywords": [
-    "bitcoin",
+    "ravencoin",
     "transaction",
     "address",
     "p2p",
@@ -76,16 +76,16 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/bitpay/bitcore.git"
+    "url": "https://github.com/underdarkskies/ravencore.git"
   },
   "browser": {
     "request": "browser-request"
   },
   "dependencies": {
-    "bitcore-lib": "satoshilabs/bitcore-lib#8e2caed768aa269b433a14981f0e36c0838a3d91",
-    "bitcore-node": "satoshilabs/bitcore-node#88cbc3f6fa1f7d1ceb731b560e739409dfe0dcda",
-    "insight-api": "satoshilabs/insight-api#6ef6003648e0a5e27c67d677d6aee04bd31eae04",
-    "insight-ui": "satoshilabs/insight#0eee359b3d951c749fc3078f0118669be3bb46fb"
+    "ravencore-lib": "underdarkskies/ravencore-lib",
+    "ravencore-node": "underdarkskies/ravencore-node",
+    "insight-api": "underdarkskies/insight-api",
+    "insight-ui": "underdarkskies/insight-ui"
   },
   "license": "MIT",
   "devDependencies": {

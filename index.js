@@ -1,5 +1,5 @@
 'use strict';
 
-var bitcore = require('bitcore-lib');
+var ravencore = require('ravencore-lib');
 
-module.exports = bitcore;
+module.exports = ravencore;

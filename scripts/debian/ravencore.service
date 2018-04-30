@@ -1,0 +1,20 @@
+[Unit]
+Description={{ deb_package_description }}
+Requires=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/usr/opt/ravencore
+ExecStart=/usr/opt/ravencore/bin/ravencored
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=15
+User=ravencore
+ExecStartPre=/bin/mkdir -p /run/ravencore
+ExecStartPre=/bin/chown ravencore:ravencore /run/ravencore
+ExecStartPre=/bin/chmod 755 /run/ravencore
+PermissionsStartOnly=true
+TimeoutStopSec=300
+
+[Install]
+WantedBy=multi-user.target

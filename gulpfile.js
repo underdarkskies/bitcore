@@ -1,5 +1,5 @@
 
 
-var bitcoreTasks = require('bitcore-build');
+var ravencoreTasks = require('ravencore-build');
 
-bitcoreTasks();
+ravencoreTasks();

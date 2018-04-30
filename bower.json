@@ -1,8 +1,8 @@
 {
-  "name": "bitcore",
-  "main": "./bitcore.min.js",
+  "name": "ravencore",
+  "main": "./ravencore.min.js",
   "version": "0.13.5",
-  "homepage": "http://bitcore.io",
+  "homepage": "https://github.com/underdarkskies",
   "authors": [
     "BitPay, Inc."
   ],
@@ -11,8 +11,8 @@
     "globals"
   ],
   "keywords": [
-    "bitcoin",
-    "bitcore",
+    "ravencoin",
+    "ravencore",
     "btc",
     "satoshi"
   ],

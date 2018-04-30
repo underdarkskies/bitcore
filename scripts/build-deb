@@ -16,10 +16,10 @@ package_version=$(jq -r ".version" "${root_dir}/package.json")
 package_maintainer=$(jq -r ".author" "${root_dir}/package.json")
 package_description=$(jq -r ".description" "${root_dir}/package.json")
 
-deb_dir="${root_dir}/build/bitcore_${package_version}_${package_arch}"
+deb_dir="${root_dir}/build/ravencore_${package_version}_${package_arch}"
 
 log_title "Making Debian package:\n"
-echo -e "  Name: bitcore"
+echo -e "  Name: ravencore"
 echo -e "  Version: ${package_version}"
 echo -e "  Maintainer: ${package_maintainer}"
 echo -e "  Description: ${package_description}"
@@ -45,9 +45,9 @@ replace_vars() {
 
 log_title "Setting up Debian package:"
 mkdir -vp "$deb_dir/DEBIAN" \
-      "$deb_dir/etc/bitcore" \
-      "$deb_dir/usr/opt/bitcore" \
-      "$deb_dir/usr/opt/bitcore/bin" \
+      "$deb_dir/etc/ravencore" \
+      "$deb_dir/usr/opt/ravencore" \
+      "$deb_dir/usr/opt/ravencore/bin" \
       "$deb_dir/usr/bin"
 
 mkdir -vp "$deb_dir/etc/init"
@@ -55,36 +55,36 @@ mkdir -vp "$deb_dir/etc/systemd/system"
 replace_vars "${root_dir}/scripts/debian/control" "$deb_dir/DEBIAN/control"
 replace_vars "${root_dir}/scripts/debian/postinst" "$deb_dir/DEBIAN/postinst"
 replace_vars "${root_dir}/scripts/debian/prerm" "$deb_dir/DEBIAN/prerm"
-replace_vars "${root_dir}/scripts/debian/bitcore.conf" "$deb_dir/etc/init/bitcore.conf"
-replace_vars "${root_dir}/scripts/debian/bitcore.service" "$deb_dir/etc/systemd/system/bitcore.service"
-replace_vars "${root_dir}/scripts/debian/bitcore-bitcoind.conf" "$deb_dir/etc/init/bitcore-bitcoind.conf"
-replace_vars "${root_dir}/scripts/debian/bitcore-bitcoind.service" "$deb_dir/etc/systemd/system/bitcore-bitcoind.service"
+replace_vars "${root_dir}/scripts/debian/ravencore.conf" "$deb_dir/etc/init/ravencore.conf"
+replace_vars "${root_dir}/scripts/debian/ravencore.service" "$deb_dir/etc/systemd/system/ravencore.service"
+replace_vars "${root_dir}/scripts/debian/ravencore-ravend.conf" "$deb_dir/etc/init/ravencore-ravend.conf"
+replace_vars "${root_dir}/scripts/debian/ravencore-ravend.service" "$deb_dir/etc/systemd/system/ravencore-ravend.service"
 chmod -vR 0755 "$deb_dir/DEBIAN/"
 
-log_title "Copying Bitcore"
+log_title "Copying Ravencore"
 
-app_dir="$deb_dir/usr/opt/bitcore"
+app_dir="$deb_dir/usr/opt/ravencore"
 
-cp -v "${root_dir}/bin/bitcored" "${app_dir}/bin/bitcored"
-cp -v "${root_dir}/bin/bitcore" "${app_dir}/bin/bitcore"
-chmod -vR 0755 "${app_dir}/bin/bitcore" "${app_dir}/bin/bitcored"
+cp -v "${root_dir}/bin/ravencored" "${app_dir}/bin/ravencored"
+cp -v "${root_dir}/bin/ravencore" "${app_dir}/bin/ravencore"
+chmod -vR 0755 "${app_dir}/bin/ravencore" "${app_dir}/bin/ravencored"
 cp -v "${root_dir}/package.json" "${app_dir}"
 cp -v "${root_dir}/README.md" "${app_dir}"
 cp -v "${root_dir}/index.js" "${app_dir}"
 pushd "${deb_dir}/usr/bin"
-ln -vs "../opt/bitcore/bin/bitcore"
-ln -vs "../opt/bitcore/bin/bitcored"
-ln -vs "../opt/bitcore/node_modules/.bin/bitcoind" "bitcore-bitcoind"
+ln -vs "../opt/ravencore/bin/ravencore"
+ln -vs "../opt/ravencore/bin/ravencored"
+ln -vs "../opt/ravencore/node_modules/.bin/ravend" "ravencore-ravend"
 popd
 
-log_title "Installing Bitcore Modules"
+log_title "Installing Ravencore Modules"
 pushd "${app_dir}"
-VERIFY_BITCOIN_DOWNLOAD=1 npm install --production
+VERIFY_RAVENCOIN_DOWNLOAD=1 npm install --production
 echo "Cleanup Node.js addon binaries before packaging:"
 find "${app_dir}" -type f -name '*.node' -print -delete
 find "${app_dir}" -type f -name '*.o' -print -delete
 echo "Cleanup intermediate files:"
-rm -v "${deb_dir}/usr/opt/bitcore/node_modules/bitcore-node/bin/bitcoin-0.12.1-linux64.tar.gz"
+rm -v "${deb_dir}/usr/opt/ravencore/node_modules/ravencore-node/bin/ravencoin-0.15.0-linux64.tar.gz"
 npm shrinkwrap --dev
 popd
 

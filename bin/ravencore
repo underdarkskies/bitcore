@@ -1,7 +1,7 @@
 #!/usr/bin/env nodejs
 
-var bitcore = require('bitcore-node/lib/cli/bitcore');
+var ravencore = require('ravencore-node/lib/cli/ravencore');
 var path = require('path');
 var servicesPath = path.resolve(__dirname, '../');
 var additionalServices = ['insight-api', 'insight-ui'];
-bitcore(servicesPath, additionalServices);
+ravencore(servicesPath, additionalServices);
