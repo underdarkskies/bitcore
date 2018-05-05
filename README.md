@@ -3,64 +3,95 @@ Ravencore
 
 This is Unders fork of Bitpay's Bitcore that uses Ravencoin 0.15.0. It has a limited segwit support.
 
-We (Under) are not promising to keep these forks "alive", updated and maintained, long-term. For that reason, they are not pushed into NPM, just on github.
-
-What is also added is support for new smart fees; `/utils/estimatesmartfee?nbBlocks=2&mode=economical` returns the new smart fees. Similarly, estimatesmartfee (with `int bool` parameters) is added to the ravencore websocket API.
-
-We do not version Ravencore here, either for mainnet or for the forks; we are using https://github.com/underdarkskies/ravencore-deb to build debian packages, which are versioned, for all the coins. So this repo might seem a little chaotic, but we are pinning commit hashes for various altcoins in the ravencore-deb repo.
+It is HIGHLY recommended to use https://github.com/underdarkskies/ravencore-deb to build and deploy packages for production use.
 
 Bitpay's Bitcore has diverged from our code with their recent rewrites and refactors (for example, added bcoin for transaction parsing); we do not plan to merge the big refactors back here. (see https://github.com/bitpay/bitcore )
 
 ----
-Infrastructure to build Ravencoin and blockchain-based applications for the next generation of financial technology.
+Getting Started
+=====================================
+Deploying Ravencore full-stack manually:
+----
+````
+##(add Unders key)##
+$gpg --keyserver hkp://pgp.mit.edu:80 --recv-key B3BD190C
+$sudo apt-get update
+$sudo apt-get -y install libevent-dev libboost-all-dev libminiupnpc10 libzmq5 software-properties-common curl git build-essential libzmq3-dev
+$sudo apt-get -y install software-properties-common
+$sudo add-apt-repository ppa:bitcoin/bitcoin
+$sudo apt-get update
+$sudo apt-get -y install libdb4.8-dev libdb4.8++-dev
+$curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+##(restart your shell/os)##
+$nvm install stable
+$nvm install-latest-npm
+$nvm use stable
+$git clone https://github.com/underdarkskies/ravencore.git
+$npm install -g ravencore --production
+````
+Copy the following into a file named ravecore-node.json and place it in ~/.ravencore/
+````json
+{
+  "network": "livenet",
+  "port": 3001,
+  "services": [
+    "ravend",
+    "web",
+    "insight-api",
+    "insight-ui"
+  ],
+  "servicesConfig": {
+    "ravend": {
+      "spawn": {
+        "datadir": "/home/<yourusername>/.ravencore/data",
+        "exec": "/home/<yourusername>/ravencore/node_modules/ravencore-node/bin/ravend"
+      }
+    },
+    "insight-ui": {
+      "routePrefix": "",
+      "apiPrefix": "api"
+    },
+    "insight-api": {
+      "routePrefix": "api"
+    }
+  }
+}
+````
+Launch your copy of ravencore:
+````
+$ravencored
+````
+You can then view the Ravencoin block explorer at the location: `http://localhost:3001`
 
-**Note:** If you're looking for the Ravencore Library please see: https://github.com/underdarkskies/ravencore-lib
-
-## Getting Started
-
-Before you begin you'll need to have Node.js v4 or v0.12 installed. There are several options for installation. One method is to use [nvm](https://github.com/creationix/nvm) to easily switch between different versions, or download directly from [Node.js](https://nodejs.org/).
-
-```bash
-npm install -g ravencore
-```
-
-Spin up a full node and join the network:
-
-```bash
-npm install -g ravencore
-ravencored
-```
-
-You can then view the Insight block explorer at the default location: `http://localhost:3001/insight`, and your configuration file will be found in your home directory at `~/.ravencore`.
-
-Create a transaction:
-```js
-var ravencore = require('ravencore');
-var transaction = new ravencore.Transaction();
-var transaction.from(unspent).to(address, amount);
-transaction.sign(privateKey);
-```
+Undeploying Ravencore full-stack manually:
+----
+````
+$nvm deactivate
+$nvm uninstall stable
+$rm -rf .npm .node-gyp ravencore
+$rm .ravencore/data/raven.conf .ravencore/ravencore-node.json
+````
 
 ## Applications
 
 - [Node](https://github.com/underdarkskies/ravencore-node) - A full node with extended capabilities using Ravencoin Core
 - [Insight API](https://github.com/underdarkskies/insight-api) - A blockchain explorer HTTP API
 - [Insight UI](https://github.com/underdarkskies/insight) - A blockchain explorer web user interface
-- [Wallet Service](https://github.com/underdarkskies/ravencore-wallet-service) - A multisig HD service for wallets
-- [Wallet Client](https://github.com/underdarkskies/ravencore-wallet-client) - A client for the wallet service
-- [CLI Wallet](https://github.com/underdarkskies/ravencore-wallet) - A command-line based wallet client
-- [Angular Wallet Client](https://github.com/underdarkskies/angular-ravencore-wallet-client) - An Angular based wallet client
-- [Copay](https://github.com/underdarkskies/copay) - An easy-to-use, multiplatform, multisignature, secure ravencoin wallet
+- (to-do) [Wallet Service](https://github.com/underdarkskies/ravencore-wallet-service) - A multisig HD service for wallets
+- (to-do) [Wallet Client](https://github.com/underdarkskies/ravencore-wallet-client) - A client for the wallet service
+- (to-do) [CLI Wallet](https://github.com/underdarkskies/ravencore-wallet) - A command-line based wallet client
+- (to-do) [Angular Wallet Client](https://github.com/underdarkskies/angular-ravencore-wallet-client) - An Angular based wallet client
+- (to-do) [Copay](https://github.com/underdarkskies/copay) - An easy-to-use, multiplatform, multisignature, secure ravencoin wallet
 
 ## Libraries
 
 - [Lib](https://github.com/underdarkskies/ravencore-lib) - All of the core Ravencoin primatives including transactions, private key management and others
-- [Payment Protocol](https://github.com/underdarkskies/ravencore-payment-protocol) - A protocol for communication between a merchant and customer
-- [P2P](https://github.com/underdarkskies/ravencore-p2p) - The peer-to-peer networking protocol
-- [Mnemonic](https://github.com/underdarkskies/ravencore-mnemonic) - Implements mnemonic code for generating deterministic keys
-- [Channel](https://github.com/underdarkskies/ravencore-channel) - Micropayment channels for rapidly adjusting ravencoin transactions
+- (to-do) [Payment Protocol](https://github.com/underdarkskies/ravencore-payment-protocol) - A protocol for communication between a merchant and customer
+- (to-do) [P2P](https://github.com/underdarkskies/ravencore-p2p) - The peer-to-peer networking protocol
+- (to-do) [Mnemonic](https://github.com/underdarkskies/ravencore-mnemonic) - Implements mnemonic code for generating deterministic keys
+- (to-do) [Channel](https://github.com/underdarkskies/ravencore-channel) - Micropayment channels for rapidly adjusting ravencoin transactions
 - [Message](https://github.com/underdarkskies/ravencore-message) - Ravencoin message verification and signing
-- [ECIES](https://github.com/underdarkskies/ravencore-ecies) - Uses ECIES symmetric key negotiation from public keys to encrypt arbitrarily long data streams.
+- (to-do) [ECIES](https://github.com/underdarkskies/ravencore-ecies) - Uses ECIES symmetric key negotiation from public keys to encrypt arbitrarily long data streams.
 
 ## Documentation
 
@@ -81,15 +112,8 @@ If you find a security issue, please email security@bitpay.com.
 
 Please send pull requests for bug fixes, code optimization, and ideas for improvement. For more information on how to contribute, please refer to our [CONTRIBUTING](https://github.com/underdarkskies/ravencore/blob/master/CONTRIBUTING.md) file.
 
-This will generate files named `ravencore.js` and `ravencore.min.js`.
-
-You can also use our pre-generated files, provided for each release along with a PGP signature by one of the project's maintainers. To get them, checkout a release commit (for example, https://github.com/underdarkskies/ravencore/commit/e33b6e3ba6a1e5830a079e02d949fce69ea33546 for v0.12.6).
-
 To verify signatures, use the following PGP keys:
-- @braydonf: https://pgp.mit.edu/pks/lookup?op=get&search=0x9BBF07CAC07A276D `D909 EFE6 70B5 F6CC 89A3 607A 9BBF 07CA C07A 276D`
-- @gabegattis: https://pgp.mit.edu/pks/lookup?op=get&search=0x441430987182732C `F3EA 8E28 29B4 EC93 88CB  B0AA 4414 3098 7182 732C`
-- @kleetus: https://pgp.mit.edu/pks/lookup?op=get&search=0x33195D27EF6BDB7F `F8B0 891C C459 C197 65C2 5043 3319 5D27 EF6B DB7F`
-- @matiu: https://pgp.mit.edu/pks/lookup?op=get&search=0x9EDE6DE4DE531FAC `25CE ED88 A1B1 0CD1 12CD  4121 9EDE 6DE4 DE53 1FAC`
+- @underdarkskies: http://pgp.mit.edu/pks/lookup?op=get&search=0x009BAB88B3BD190C `EE6F 9673 1EF6 ED85 B12B  0A3F 009B AB88 B3BD 190C`
 
 ## License
 
