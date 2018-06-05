@@ -35,10 +35,10 @@
     "request": "browser-request"
   },
   "dependencies": {
-    "ravencore-lib": "underdarkskies/ravencore-lib",
-    "ravencore-node": "underdarkskies/ravencore-node",
-    "insight-api": "underdarkskies/insight-api",
-    "insight-ui": "underdarkskies/insight-ui"
+    "ravencore-lib": "underdarkskies/ravencore-lib#master-basic",
+    "ravencore-node": "underdarkskies/ravencore-node#master-basic",
+    "insight-api": "underdarkskies/insight-api#master-basic",
+    "insight-ui": "underdarkskies/insight-ui#master-basic"
   },
   "license": "MIT",
   "devDependencies": {
