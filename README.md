@@ -1,11 +1,9 @@
 Ravencore
 =======
 
-This is Unders fork of Bitpay's Bitcore that uses Ravencoin 0.15.0. It has a limited segwit support.
+This is Under's fork of Bitpay's Bitcore that uses Ravencoin 0.15.2. It has a limited segwit support.
 
 It is HIGHLY recommended to use https://github.com/underdarkskies/ravencore-deb to build and deploy packages for production use.
-
-Bitpay's Bitcore has diverged from our code with their recent rewrites and refactors (for example, added bcoin for transaction parsing); we do not plan to merge the big refactors back here. (see https://github.com/bitpay/bitcore )
 
 ----
 Getting Started
@@ -92,20 +90,9 @@ $rm .ravencore/data/raven.conf .ravencore/ravencore-node.json
 - [Message](https://github.com/underdarkskies/ravencore-message) - Ravencoin message verification and signing
 - (to-do) [ECIES](https://github.com/underdarkskies/ravencore-ecies) - Uses ECIES symmetric key negotiation from public keys to encrypt arbitrarily long data streams.
 
-## Documentation
-
-The complete docs are hosted here: [bitcore documentation](http://bitcore.io/guide/). There's also a [bitcore API reference](http://bitcore.io/api/) available generated from the JSDocs of the project, where you'll find low-level details on each bitcore utility.
-
-- [Read the Developer Guide](http://bitcore.io/guide/)
-- [Read the API Reference](http://bitcore.io/api/)
-
-To get community assistance and ask for help with implementation questions, please use our [community forums](http://bitpaylabs.com/c/bitcore).
-
 ## Security
 
-We're using Ravencore in production, as are [many others](http://bitcore.io#projects), but please use common sense when doing anything related to finances! We take no responsibility for your implementation decisions.
-
-If you find a security issue, please email security@bitpay.com.
+We're using Ravencore in production, but please use common sense when doing anything related to finances! We take no responsibility for your implementation decisions.
 
 ## Contributing
 
@@ -117,5 +104,3 @@ To verify signatures, use the following PGP keys:
 ## License
 
 Code released under [the MIT license](https://github.com/underdarkskies/ravencore/blob/master/LICENSE).
-
-Copyright 2013-2015 BitPay, Inc. Bitcore is a trademark maintained by BitPay, Inc.
