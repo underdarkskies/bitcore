@@ -128,7 +128,7 @@ You can then view the Ravencoin block explorer at the location: `http://localhos
 
 Create an Nginx proxy to forward port 80 and 443(with a snakeoil ssl cert)traffic:
 ----
-THIS ngninx-ravencore IS NOT MEANT FOR PRODUCTION USE!!
+IMPORTANT: this "nginx-ravencore" config is not meant for production use
 see this guide [here](https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/) for production usage
 ````
 $sudo apt-get install -y nginx
