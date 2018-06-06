@@ -172,7 +172,30 @@ $sudo printf "[Service]\nExecStartPost=/bin/sleep 0.1\n" | sudo tee /etc/systemd
 $sudo systemctl daemon-reload
 $sudo service nginx restart
 ````
+Upgrading Ravencore full-stack manually:
+----
+- This will leave the local blockchain copy intact:
+Shutdown the ravencored application first, and backup your unique raven.conf and ravencore-node.json
+````
+$cd ~/
+$rm -rf .npm .node-gyp ravencore
+$rm .ravencore/data/raven.conf .ravencore/ravencore-node.json
+$git clone https://github.com/underdarkskies/ravencore.git
+$npm install -g ravencore --production
+````
+(recreate your unique raven.conf and ravencore-node.json)
 
+- This will redownload a new blockchain copy:
+(Some updates may require you to reindex the blockchain data. If this is the case, redownloading the blockchain only takes 20 minutes)
+Shutdown the ravencored application first, and backup your unique raven.conf and ravencore-node.json
+````
+$cd ~/
+$rm -rf .npm .node-gyp ravencore
+$rm -rf .ravencore
+$git clone https://github.com/underdarkskies/ravencore.git
+$npm install -g ravencore --production
+````
+(recreate your unique raven.conf and ravencore-node.json)
 
 Undeploying Ravencore full-stack manually:
 ----
