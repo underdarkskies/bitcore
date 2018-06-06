@@ -47,8 +47,8 @@ Copy the following into a file named ravencore-node.json and place it in ~/.rave
   "messageLog": "",
   "servicesConfig": {
     "web": {
-      "disablePolling": false,
-	  "enableSocketRPC": false
+      "disablePolling": true,
+      "enableSocketRPC": false
     },
     "insight-ui": {
       "routePrefix": "",
