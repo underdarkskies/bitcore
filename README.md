@@ -33,7 +33,7 @@ $sudo systemctl enable mongod.service
 $git clone https://github.com/underdarkskies/ravencore.git
 $npm install -g ravencore --production
 ````
-Copy the following into a file named ravencore-node.json and place it in ~/.ravencore/
+Copy the following into a file named ravencore-node.json and place it in ~/.ravencore/ (be sure to customize username values and/or ports)
 ````json
 {
   "network": "livenet",
