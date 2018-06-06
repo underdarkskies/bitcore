@@ -174,12 +174,14 @@ $sudo service nginx restart
 ````
 Upgrading Ravencore full-stack manually:
 ----
+
 - This will leave the local blockchain copy intact:
 Shutdown the ravencored application first, and backup your unique raven.conf and ravencore-node.json
 ````
 $cd ~/
 $rm -rf .npm .node-gyp ravencore
 $rm .ravencore/data/raven.conf .ravencore/ravencore-node.json
+##reboot##
 $git clone https://github.com/underdarkskies/ravencore.git
 $npm install -g ravencore --production
 ````
@@ -192,10 +194,18 @@ Shutdown the ravencored application first, and backup your unique raven.conf and
 $cd ~/
 $rm -rf .npm .node-gyp ravencore
 $rm -rf .ravencore
+##reboot##
 $git clone https://github.com/underdarkskies/ravencore.git
 $npm install -g ravencore --production
 ````
 (recreate your unique raven.conf and ravencore-node.json)
+
+-Some upgrades may require you to rebuild the statistics database
+````
+$mongo
+>use raven-api-livenet
+>db.dropDatabase()
+````
 
 Undeploying Ravencore full-stack manually:
 ----
