@@ -83,8 +83,8 @@ Copy the following into a file named ravencore-node.json and place it in ~/.rave
 ````
 Quick note on allowing socket.io from other services. 
 - If you would like to have a seperate services be able to query your api with live updates, remove the "allowedOriginRegexp": setting and change "disablePolling": to false. 
-- "enableSocketRPC" should remain false unless you can control who is connecting to your socket.io service. also the allowed OriginRegexp does not follow standard regex rules. 
-- If you have a subdomain, the format would be(without angle brackets<>):
+- "enableSocketRPC" should remain false unless you can control who is connecting to your socket.io service. 
+- The allowed OriginRegexp does not follow standard regex rules. If you have a subdomain, the format would be(without angle brackets<>):
 ````
 "allowedOriginRegexp": "^https://<yoursubdomain>\\.<yourdomain>\\.<yourTLD>$",
 ````
