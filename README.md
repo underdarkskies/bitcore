@@ -23,10 +23,17 @@ $curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh |
 $nvm install stable
 $nvm install-latest-npm
 $nvm use stable
+##(install mongodb)##
+$sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+$echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
+$sudo apt-get update
+$sudo apt-get install -y mongodb-org
+$sudo systemctl enable mongod.service
+##(install ravencore)##
 $git clone https://github.com/underdarkskies/ravencore.git
 $npm install -g ravencore --production
 ````
-Copy the following into a file named ravecore-node.json and place it in ~/.ravencore/
+Copy the following into a file named ravencore-node.json and place it in ~/.ravencore/
 ````json
 {
   "network": "livenet",
@@ -37,22 +44,72 @@ Copy the following into a file named ravecore-node.json and place it in ~/.raven
     "insight-api",
     "insight-ui"
   ],
+  "messageLog": "",
   "servicesConfig": {
-    "ravend": {
-      "spawn": {
-        "datadir": "/home/<yourusername>/.ravencore/data",
-        "exec": "/home/<yourusername>/ravencore/node_modules/ravencore-node/bin/ravend"
-      }
+    "web": {
+      "disablePolling": false,
+	  "enableSocketRPC": false
     },
     "insight-ui": {
       "routePrefix": "",
       "apiPrefix": "api"
     },
     "insight-api": {
-      "routePrefix": "api"
+      "routePrefix": "api",
+      "coinTicker" : "https://api.coinmarketcap.com/v1/ticker/ravencoin/?convert=USD",
+      "coinShort": "RVN",
+	    "db": {
+		  "host": "127.0.0.1",
+		  "port": "27017",
+		  "database": "raven-api-livenet",
+		  "user": "",
+		  "password": ""
+	  }
+    },
+	"ravend": {
+      "sendTxLog": "/home/<yourusername>/.ravencore/pushtx.log",
+      "spawn": {
+        "datadir": "/home/<yourusername>/.ravencore/data",
+        "exec": "/home/<yourusername>/ravencore/node_modules/ravencore-node/bin/ravend",
+        "rpcqueue": 1000,
+        "rpcport": 8766,
+        "zmqpubrawtx": "tcp://127.0.0.1:28332",
+        "zmqpubhashblock": "tcp://127.0.0.1:28332"
+      }
     }
   }
 }
+````
+To setup unique mongo credentials:
+````
+$mongo
+>use raven-api-livenet
+>db.createUser( { user: "test", pwd: "test1234", roles: [ "readWrite" ] } )
+````
+then add these unique credentials to your ravencore-node.json
+
+Copy the following into a file named raven.conf and place it in ~/.ravencore/data
+````json
+server=1
+whitelist=127.0.0.1
+txindex=1
+addressindex=1
+timestampindex=1
+spentindex=1
+zmqpubrawtx=tcp://127.0.0.1:28332
+zmqpubhashblock=tcp://127.0.0.1:28332
+rpcport=8766
+rpcallowip=127.0.0.1
+rpcuser=ravencoin
+rpcpassword=local321 #change to something unique
+uacomment=ravencore-sl
+
+mempoolexpiry=72 # Default 336
+rpcworkqueue=1100
+maxmempool=2000
+dbcache=1000
+maxtxfee=1.0
+dbmaxfilesize=64
 ````
 Launch your copy of ravencore:
 ````
@@ -84,7 +141,7 @@ $rm .ravencore/data/raven.conf .ravencore/ravencore-node.json
 
 - [Lib](https://github.com/underdarkskies/ravencore-lib) - All of the core Ravencoin primatives including transactions, private key management and others
 - (to-do) [Payment Protocol](https://github.com/underdarkskies/ravencore-payment-protocol) - A protocol for communication between a merchant and customer
-- (to-do) [P2P](https://github.com/underdarkskies/ravencore-p2p) - The peer-to-peer networking protocol
+- [P2P](https://github.com/underdarkskies/ravencore-p2p) - The peer-to-peer networking protocol
 - (to-do) [Mnemonic](https://github.com/underdarkskies/ravencore-mnemonic) - Implements mnemonic code for generating deterministic keys
 - (to-do) [Channel](https://github.com/underdarkskies/ravencore-channel) - Micropayment channels for rapidly adjusting ravencoin transactions
 - [Message](https://github.com/underdarkskies/ravencore-message) - Ravencoin message verification and signing
