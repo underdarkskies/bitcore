@@ -94,6 +94,7 @@ To setup unique mongo credentials:
 $mongo
 >use raven-api-livenet
 >db.createUser( { user: "test", pwd: "test1234", roles: [ "readWrite" ] } )
+>exit
 ````
 (then add these unique credentials to your ravencore-node.json)
 
@@ -207,6 +208,7 @@ $npm install -g ravencore --production
 $mongo
 >use raven-api-livenet
 >db.dropDatabase()
+>exit
 ````
 
 Undeploying Ravencore full-stack manually:
@@ -215,7 +217,11 @@ Undeploying Ravencore full-stack manually:
 $nvm deactivate
 $nvm uninstall stable
 $rm -rf .npm .node-gyp ravencore
-$rm .ravencore/data/raven.conf .ravencore/ravencore-node.json
+$rm .ravencore
+$mongo
+>use raven-api-livenet
+>db.dropDatabase()
+>exit
 ````
 
 ## Applications
