@@ -33,7 +33,7 @@ $sudo systemctl enable mongod.service
 $git clone https://github.com/underdarkskies/ravencore.git
 $npm install -g ravencore --production
 ````
-Copy the following into a file named ravencore-node.json and place it in ~/.ravencore/ (be sure to customize username values and/or ports)
+Copy the following into a file named ravencore-node.json and place it in ~/.ravencore/ (be sure to customize username values(without angle brackets<>) and/or ports)
 ````json
 {
   "network": "livenet",
@@ -44,6 +44,7 @@ Copy the following into a file named ravencore-node.json and place it in ~/.rave
     "insight-api",
     "insight-ui"
   ],
+  "allowedOriginRegexp": "^https://<yourdomain>\\.<yourTLD>$",
   "messageLog": "",
   "servicesConfig": {
     "web": {
@@ -80,6 +81,11 @@ Copy the following into a file named ravencore-node.json and place it in ~/.rave
   }
 }
 ````
+Quick note on allowing socket.io from other services. If you would like to have a seperate services be able to query your api with live updates, remove the "allowedOriginRegexp": setting and change "disablePolling": to false. "enableSocketRPC" should remain false unless you can control who is connecting to your socket.io service. also the allowed OriginRegexp does not follow standard regex rules. if you have a subdomain, the format would be(without angle brackets<>):
+````
+"allowedOriginRegexp": "^https://<yoursubdomain>\\.<yourdomain>\\.<yourTLD>$",
+````
+
 To setup unique mongo credentials:
 ````
 $mongo
