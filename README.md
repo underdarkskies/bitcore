@@ -66,7 +66,7 @@ Copy the following into a file named ravencore-node.json and place it in ~/.rave
 		  "password": ""
 	  }
     },
-	"ravend": {
+    "ravend": {
       "sendTxLog": "/home/<yourusername>/.ravencore/pushtx.log",
       "spawn": {
         "datadir": "/home/<yourusername>/.ravencore/data",
