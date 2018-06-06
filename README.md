@@ -81,7 +81,10 @@ Copy the following into a file named ravencore-node.json and place it in ~/.rave
   }
 }
 ````
-Quick note on allowing socket.io from other services. If you would like to have a seperate services be able to query your api with live updates, remove the "allowedOriginRegexp": setting and change "disablePolling": to false. "enableSocketRPC" should remain false unless you can control who is connecting to your socket.io service. also the allowed OriginRegexp does not follow standard regex rules. if you have a subdomain, the format would be(without angle brackets<>):
+Quick note on allowing socket.io from other services. 
+- If you would like to have a seperate services be able to query your api with live updates, remove the "allowedOriginRegexp": setting and change "disablePolling": to false. 
+- "enableSocketRPC" should remain false unless you can control who is connecting to your socket.io service. also the allowed OriginRegexp does not follow standard regex rules. 
+- If you have a subdomain, the format would be(without angle brackets<>):
 ````
 "allowedOriginRegexp": "^https://<yoursubdomain>\\.<yourdomain>\\.<yourTLD>$",
 ````
@@ -92,7 +95,7 @@ $mongo
 >use raven-api-livenet
 >db.createUser( { user: "test", pwd: "test1234", roles: [ "readWrite" ] } )
 ````
-then add these unique credentials to your ravencore-node.json
+(then add these unique credentials to your ravencore-node.json)
 
 Copy the following into a file named raven.conf and place it in ~/.ravencore/data
 ````json
@@ -122,6 +125,54 @@ Launch your copy of ravencore:
 $ravencored
 ````
 You can then view the Ravencoin block explorer at the location: `http://localhost:3001`
+
+Create an Nginx proxy to forward port 80 and 443(with a snakeoil ssl cert)traffic:
+----
+````
+$sudo apt-get install -y nginx
+````
+copy the following into a file named "nginx-ravencore" and place it in /etc/nginx/sites-available/
+````
+server {
+    listen 80;
+    listen 443 ssl;
+        
+    include snippets/snakeoil.conf;
+    root /home/ravencore/www;
+    access_log /var/log/nginx/ravencore-access.log;
+    error_log /var/log/nginx/ravencore-error.log;
+    location / {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_connect_timeout 10;
+        proxy_send_timeout 10;
+        proxy_read_timeout 100; # 100s is timeout of Cloudflare
+        send_timeout 10;
+    }
+    location /robots.txt {
+       add_header Content-Type text/plain;
+       return 200 "User-agent: *\nallow: /\n";
+    }
+    location /ravencore-hostname.txt {
+        alias /var/www/html/ravencore-hostname.txt;
+    }
+}
+````
+Then enable your site:
+````
+$cd /etc/nginx/sites-enabled
+$sudo ln -s ../sites-available/nginx-ravencore .
+$sudo rm default
+$sudo rm ../sites-available/default
+$sudo printf "[Service]\nExecStartPost=/bin/sleep 0.1\n" | sudo tee /etc/systemd/system/nginx.service.d/override.conf
+$sudo systemctl daemon-reload
+$sudo service nginx restart
+````
+
 
 Undeploying Ravencore full-stack manually:
 ----
