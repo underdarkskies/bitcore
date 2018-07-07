@@ -11,8 +11,6 @@ Getting Started
 Deploying Ravencore full-stack manually:
 ----
 ````
-##(add Unders key)##
-$gpg --keyserver hkp://pgp.mit.edu:80 --recv-key B3BD190C
 $sudo apt-get update
 $sudo apt-get -y install libevent-dev libboost-all-dev libminiupnpc10 libzmq5 software-properties-common curl git build-essential libzmq3-dev
 $sudo add-apt-repository ppa:bitcoin/bitcoin
