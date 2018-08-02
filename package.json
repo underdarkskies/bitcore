@@ -1,6 +1,6 @@
 {
   "name": "ravencore",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "A platform to build ravencoin and blockchain-based applications.",
   "author": "Under",
   "main": "index.js",
@@ -35,10 +35,10 @@
     "request": "browser-request"
   },
   "dependencies": {
-    "ravencore-lib": "underdarkskies/ravencore-lib",
-    "ravencore-node": "underdarkskies/ravencore-node",
-    "insight-api": "underdarkskies/insight-api",
-    "insight-ui": "underdarkskies/insight-ui"
+    "ravencore-lib": "underdarkskies/ravencore-lib#assets",
+    "ravencore-node": "underdarkskies/ravencore-node#assets",
+    "insight-api": "underdarkskies/insight-api#assets",
+    "insight-ui": "underdarkskies/insight-ui#assets"
   },
   "license": "MIT",
   "devDependencies": {
