@@ -49,7 +49,7 @@ Copy the following into a file named ravencore-node.json and place it in ~/.rave
     "insight-api": {
       "routePrefix": "api",
       "coinTicker" : "https://api.coinmarketcap.com/v1/ticker/ravencoin/?convert=USD",
-      "coinShort": "RVN",
+      "coinShort": "RVN"
     },
     "ravend": {
       "sendTxLog": "/home/<yourusername>/.ravencore/pushtx.log",
