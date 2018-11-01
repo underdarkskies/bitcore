@@ -1,6 +1,6 @@
 {
   "name": "ravencore",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "A platform to build ravencoin and blockchain-based applications.",
   "author": "Under",
   "main": "index.js",
