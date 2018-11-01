@@ -12,7 +12,7 @@ Deploying Ravencore full-stack manually:
 ----
 ````
 sudo apt-get update
-sudo apt-get -y install curl git python3 make build-essential libzmq3-dev
+sudo apt-get -y install curl git python3 make build-essential libzmq3-dev python2.7
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 
 #restart your shell/os
@@ -28,6 +28,7 @@ sudo apt-get install -y mongodb-org
 sudo systemctl enable mongod.service
 
 #install ravencore
+sudo ln -s /usr/bin/python2.7 /usr/bin/python
 git clone https://github.com/underdarkskies/ravencore.git
 cd ravencore && git checkout lightweight
 npm install -g --production
