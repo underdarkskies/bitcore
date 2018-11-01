@@ -1,7 +1,7 @@
 Ravencore
 =======
 
-This is Under's fork of Bitpay's Bitcore that uses Ravencoin 0.15.2. It has a limited segwit support.
+This is Under's fork of Bitpay's Bitcore that uses Ravencoin 2.1.1 It has a limited segwit support.
 
 It is HIGHLY recommended to use https://github.com/underdarkskies/ravencore-deb to build and deploy packages for production use.
 
@@ -11,25 +11,26 @@ Getting Started
 Deploying Ravencore full-stack manually:
 ----
 ````
-$sudo apt-get update
-$sudo apt-get -y install libevent-dev libboost-all-dev libminiupnpc10 libzmq5 software-properties-common curl git build-essential libzmq3-dev
-$sudo add-apt-repository ppa:bitcoin/bitcoin
-$sudo apt-get update
-$sudo apt-get -y install libdb4.8-dev libdb4.8++-dev
-$curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-##(restart your shell/os)##
-$nvm install stable
-$nvm install-latest-npm
-$nvm use stable
-##(install mongodb)##
-$sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-$echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
-$sudo apt-get update
-$sudo apt-get install -y mongodb-org
-$sudo systemctl enable mongod.service
-##(install ravencore)##
-$git clone https://github.com/underdarkskies/ravencore.git
-$npm install -g ravencore --production
+sudo apt-get update
+sudo apt-get -y install curl git python3 make build-essential libzmq3-dev
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+
+#restart your shell/os
+
+nvm install 10.5.0
+nvm use 10.5.0
+
+#install mongodb
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+sudo systemctl enable mongod.service
+
+#install ravencore
+git clone https://github.com/underdarkskies/ravencore.git
+cd ravencore && git checkout lightweight
+npm install -g --production
 ````
 Copy the following into a file named ravencore-node.json and place it in ~/.ravencore/ (be sure to customize username values(without angle brackets<>) and/or ports)
 ````json
@@ -89,7 +90,7 @@ Quick note on allowing socket.io from other services.
 
 To setup unique mongo credentials:
 ````
-$mongo
+mongo
 >use raven-api-livenet
 >db.createUser( { user: "test", pwd: "test1234", roles: [ "readWrite" ] } )
 >exit
@@ -121,7 +122,7 @@ dbmaxfilesize=64
 ````
 Launch your copy of ravencore:
 ````
-$ravencored
+ravencored
 ````
 You can then view the Ravencoin block explorer at the location: `http://localhost:3001`
 
@@ -130,7 +131,7 @@ Create an Nginx proxy to forward port 80 and 443(with a snakeoil ssl cert)traffi
 IMPORTANT: this "nginx-ravencore" config is not meant for production use
 see this guide [here](https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/) for production usage
 ````
-$sudo apt-get install -y nginx ssl-cert
+sudo apt-get install -y nginx ssl-cert
 ````
 copy the following into a file named "nginx-ravencore" and place it in /etc/nginx/sites-available/
 ````
@@ -165,13 +166,12 @@ server {
 ````
 Then enable your site:
 ````
-$cd /etc/nginx/sites-enabled
-$sudo ln -s ../sites-available/nginx-ravencore .
-$sudo rm default
-$sudo rm ../sites-available/default
-$sudo printf "[Service]\nExecStartPost=/bin/sleep 0.1\n" | sudo tee /etc/systemd/system/nginx.service.d/override.conf
-$sudo systemctl daemon-reload
-$sudo service nginx restart
+sudo ln -s /etc/nginx/sites-available/nginx-ravencore /etc/nginx/sites-enabled
+sudo rm -f /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default
+sudo mkdir /etc/systemd/system/nginx.service.d
+sudo printf "[Service]\nExecStartPost=/bin/sleep 0.1\n" | sudo tee /etc/systemd/system/nginx.service.d/override.conf
+sudo systemctl daemon-reload
+sudo systemctl restart nginx
 ````
 Upgrading Ravencore full-stack manually:
 ----
@@ -179,12 +179,15 @@ Upgrading Ravencore full-stack manually:
 - This will leave the local blockchain copy intact:
 Shutdown the ravencored application first, and backup your unique raven.conf and ravencore-node.json
 ````
-$cd ~/
-$rm -rf .npm .node-gyp ravencore
-$rm .ravencore/data/raven.conf .ravencore/ravencore-node.json
-##reboot##
-$git clone https://github.com/underdarkskies/ravencore.git
-$npm install -g ravencore --production
+cd ~/
+rm -rf .npm .node-gyp ravencore
+rm .ravencore/data/raven.conf .ravencore/ravencore-node.json
+
+#reboot
+
+git clone https://github.com/underdarkskies/ravencore.git
+cd ravencore && git checkout lightweight
+npm install -g --production
 ````
 (recreate your unique raven.conf and ravencore-node.json)
 
@@ -192,31 +195,26 @@ $npm install -g ravencore --production
 (Some updates may require you to reindex the blockchain data. If this is the case, redownloading the blockchain only takes 20 minutes)
 Shutdown the ravencored application first, and backup your unique raven.conf and ravencore-node.json
 ````
-$cd ~/
-$rm -rf .npm .node-gyp ravencore
-$rm -rf .ravencore
-##reboot##
-$git clone https://github.com/underdarkskies/ravencore.git
-$npm install -g ravencore --production
+cd ~/
+rm -rf .npm .node-gyp ravencore
+rm -rf .ravencore
+
+#reboot
+
+git clone https://github.com/underdarkskies/ravencore.git
+cd ravencore && git checkout lightweight
+npm install -g --production
 ````
 (recreate your unique raven.conf and ravencore-node.json)
-
--Some upgrades may require you to rebuild the statistics database
-````
-$mongo
->use raven-api-livenet
->db.dropDatabase()
->exit
-````
 
 Undeploying Ravencore full-stack manually:
 ----
 ````
-$nvm deactivate
-$nvm uninstall stable
-$rm -rf .npm .node-gyp ravencore
-$rm .ravencore
-$mongo
+nvm deactivate
+nvm uninstall 10.5.0
+rm -rf .npm .node-gyp ravencore
+rm .ravencore/data/raven.conf .ravencore/ravencore-node.json
+mongo
 >use raven-api-livenet
 >db.dropDatabase()
 >exit
