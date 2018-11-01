@@ -35,7 +35,7 @@
     "request": "browser-request"
   },
   "dependencies": {
-    "ravencore-lib": "underdarkskies/ravencore-lib#master-basic",
+    "ravencore-lib": "underdarkskies/ravencore-lib",
     "ravencore-node": "underdarkskies/ravencore-node#master-basic",
     "insight-api": "underdarkskies/insight-api#master-basic",
     "insight-ui": "underdarkskies/insight-ui#master-basic"
