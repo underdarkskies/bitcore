@@ -1,7 +1,7 @@
 Ravencore
 =======
 
-This is Under's fork of Bitpay's Bitcore that uses Ravencoin 2.1.1 It has a limited segwit support.
+This is Under's fork of Bitpay's Bitcore that uses Ravencoin 2.5.1 It has a limited segwit support.
 
 It is HIGHLY recommended to use https://github.com/underdarkskies/ravencore-deb to build and deploy packages for production use.
 
