@@ -36,9 +36,9 @@
   },
   "dependencies": {
     "ravencore-lib": "underdarkskies/ravencore-lib#assets",
-    "ravencore-node": "underdarkskies/ravencore-node#assets",
-    "insight-api": "underdarkskies/insight-api#assets-testnet",
-    "insight-ui": "underdarkskies/insight-ui#assets-testnet"
+    "ravencore-node": "underdarkskies/ravencore-node#testnet-assets",
+    "insight-api": "underdarkskies/insight-api#testnet-assets",
+    "insight-ui": "underdarkskies/insight-ui#testnet-assets"
   },
   "license": "MIT",
   "devDependencies": {
