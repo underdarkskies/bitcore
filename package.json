@@ -35,7 +35,7 @@
     "request": "browser-request"
   },
   "dependencies": {
-    "ravencore-lib": "underdarkskies/ravencore-lib#assets",
+    "ravencore-lib": "underdarkskies/ravencore-lib#master-assets",
     "ravencore-node": "underdarkskies/ravencore-node#testnet-assets",
     "insight-api": "underdarkskies/insight-api#testnet-assets",
     "insight-ui": "underdarkskies/insight-ui#testnet-assets"
