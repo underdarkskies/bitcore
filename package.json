@@ -36,9 +36,9 @@
   },
   "dependencies": {
     "ravencore-lib": "underdarkskies/ravencore-lib",
-    "ravencore-node": "underdarkskies/ravencore-node#master-basic",
-    "insight-api": "underdarkskies/insight-api#master-basic",
-    "insight-ui": "underdarkskies/insight-ui#master-basic"
+    "ravencore-node": "underdarkskies/ravencore-node#lightweight",
+    "insight-api": "underdarkskies/insight-api#lightweight",
+    "insight-ui": "underdarkskies/insight-ui#lightweight"
   },
   "license": "MIT",
   "devDependencies": {
